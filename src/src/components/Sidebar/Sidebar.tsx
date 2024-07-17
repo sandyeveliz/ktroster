@@ -1,5 +1,7 @@
 import React from "react";
 import "./Sidebar.scss";
+import { MdOutlineHome, MdOutlineStorage } from "react-icons/md";
+import { NavLink } from "react-router-dom";
 
 export type SidebarProps = {
   // types...
@@ -8,8 +10,33 @@ export type SidebarProps = {
 const Sidebar: React.FC<SidebarProps> = ({}) => {
   return (
     <div className="sidebar">
+      <div className="logo"></div>
       <nav>
-        <ul>
+        <NavLink
+          to="/"
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "active" : ""
+          }
+        >
+          {({ isActive }) => (
+            // <span className=>Tasks</span>
+            <MdOutlineHome color={isActive ? "orange" : "black"} size={24} />
+          )}
+        </NavLink>
+
+        <NavLink
+          to="/data"
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "active" : ""
+          }
+        >
+          {({ isActive }) => (
+            // <span className=>Tasks</span>
+            <MdOutlineStorage color={isActive ? "orange" : "black"} size={24} />
+          )}
+        </NavLink>
+        <hr />
+        {/* <ul>
           <li>
             <a href={`/`}>Home</a>
           </li>
@@ -29,7 +56,7 @@ const Sidebar: React.FC<SidebarProps> = ({}) => {
           <li>
             <a href={`/missions`}>Missions</a>
           </li>
-        </ul>
+        </ul> */}
       </nav>
     </div>
   );
