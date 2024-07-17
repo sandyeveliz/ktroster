@@ -13,6 +13,7 @@
     "@octokit/core": "^6.1.2",
     "axios": "^1.7.2",
     "events": "^3.3.0",
+    "firebase": "^10.12.3",
     "primereact": "^10.7.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
