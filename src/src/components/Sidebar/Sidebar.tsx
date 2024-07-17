@@ -1,6 +1,6 @@
 import React from "react";
 import "./Sidebar.scss";
-import { MdOutlineHome, MdOutlineStorage } from "react-icons/md";
+import { MdOutlineHome, MdOutlineStorage, MdOutlineFlag } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 
 export type SidebarProps = {
@@ -25,6 +25,18 @@ const Sidebar: React.FC<SidebarProps> = ({}) => {
         </NavLink>
 
         <NavLink
+          to="/factions"
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "active" : ""
+          }
+        >
+          {({ isActive }) => (
+            // <span className=>Tasks</span>
+            <MdOutlineFlag color={isActive ? "orange" : "black"} size={24} />
+          )}
+        </NavLink>
+
+        <NavLink
           to="/data"
           className={({ isActive, isPending }) =>
             isPending ? "pending" : isActive ? "active" : ""
@@ -35,7 +47,7 @@ const Sidebar: React.FC<SidebarProps> = ({}) => {
             <MdOutlineStorage color={isActive ? "orange" : "black"} size={24} />
           )}
         </NavLink>
-        <hr />
+
         {/* <ul>
           <li>
             <a href={`/`}>Home</a>

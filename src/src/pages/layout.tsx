@@ -6,9 +6,16 @@ import { AuthStatus, useAuth } from "../context/AuthContext";
 function Layout() {
   const { userState } = useAuth();
 
-  if(userState === AuthStatus.LOADING) return <div>Loading...</div>
+  if (userState === AuthStatus.LOADING) return <div>Loading...</div>;
 
-  if(userState === AuthStatus.NOT_LOGGED_IN) return <div>Not logged in</div>
+  if (userState === AuthStatus.NOT_LOGGED_IN) {
+    return (
+      <>
+        <Header />
+        <div>Not logged in</div>
+      </>
+    );
+  }
 
   return (
     <>

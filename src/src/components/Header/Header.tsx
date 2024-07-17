@@ -11,7 +11,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
   const { user, signInWithGoogle, signOutUser } = useAuth();
   return (
     <div className="header">
-      Header works!
+      KT Companion
       {!user && (
         <div>
           <Button label="Login" onClick={signInWithGoogle} />
