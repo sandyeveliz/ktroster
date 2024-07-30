@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./factions.scss";
 import { getFactions, getKillteam } from "./services/factions.service";
 import { TabMenu } from "primereact/tabmenu";
+import { FireTeams } from "./components/FireTeams";
 
 function Factions() {
   const items = [
@@ -12,55 +13,124 @@ function Factions() {
   ];
 
   const [factions, setFactions] = useState([]);
-  const [killTeamSelected, setKillTeamSelected] = useState(null);
+  const [factionSelected, setFactionSelected] = useState<any>(null);
+  const [killTeamSelected, setKillTeamSelected] = useState<any>(null);
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [loadingFactions, setLoadingFactions] = useState(true);
+  const [loadingKillteam, setLoadingKillteam] = useState(false);
 
   useEffect(() => {
     getFactions().then((data: any) => {
       if (data) {
         setFactions(data);
+        setLoadingFactions(false);
       }
     });
   }, []);
 
-  function selectKillTeam(killTeam: any) {
+  function selectKillTeam(killTeam: any, faction: any) {
+    if (!killTeam) return;
+    if (killTeam.id === killTeamSelected?.id) {
+      setKillTeamSelected(null);
+      setFactionSelected(null);
+      return;
+    }
+
+    setFactionSelected(faction);
+    setLoadingKillteam(true);
     getKillteam(killTeam.id).then((data: any) => {
-      console.log("k", data);
       if (data) {
         setKillTeamSelected(data);
+        setLoadingKillteam(false);
       }
     });
   }
 
   if (!factions) return <div>Loading...</div>;
 
+  function ActiveTab({ activeIndex }: any) {
+    if (activeIndex === 0) {
+      return (
+        <div>
+          <FireTeams fireteams={killTeamSelected.fireteams} />
+        </div>
+      );
+    }
+
+    if (activeIndex === 1) {
+      return <div>Ploys</div>;
+    }
+
+    if (activeIndex === 2) {
+      return <div>Tacops</div>;
+    }
+
+    return <div>No active Tab</div>;
+  }
+
   return (
     <div>
       <div className="container">
         <div className="factions">
-          {factions.map((faction: any) => (
+          <h3>Killteams</h3>
+          {loadingFactions ? (
+            <div>Loading...</div>
+          ) : (
             <>
-              <div key={faction.id}>
-                <h4>{faction.factionname}</h4>
-                {/* <p>{faction.description}</p> */}
-              </div>
-              <hr />
-              {faction.killteams.map((killteam: any) => (
-                <div key={killteam.id} onClick={() => selectKillTeam(killteam)}>
-                  <h5>{killteam.name}</h5>
+              {factions.map((faction: any) => (
+                <div className="faction" key={faction.id}>
+                  <div>
+                    <h4>{faction.factionname}</h4>
+                    {/* <p>{faction.description}</p> */}
+                  </div>
+                  <hr />
+                  {faction.killteams.map((killteam: any) => (
+                    <div
+                      key={killteam.id}
+                      onClick={() => selectKillTeam(killteam, faction)}
+                      className={
+                        "killteams" +
+                        (killteam?.id === killTeamSelected?.id ? " active" : "")
+                      }
+                    >
+                      <span>{killteam.name}</span>
+                    </div>
+                  ))}
                 </div>
               ))}
             </>
-          ))}
+          )}
         </div>
         <div className="killteam">
-          <h5>Killteam</h5>
-          {killTeamSelected ? (
-            <div>
-              <TabMenu model={items} />
-            </div>
+          {loadingKillteam ? (
+            <div>Loading...</div>
           ) : (
-            <div>No killteam selected</div>
-          )}
+            <>
+              {killTeamSelected ? (
+                <div>
+                  <h3>
+                    {factionSelected.factionname} -{" "}
+                    {killTeamSelected.killteamname}
+                  </h3>
+                  <p className="description">{killTeamSelected.description}</p>
+                </div>
+              ) : (
+                <h3>No killteam selected</h3>
+              )}
+              {killTeamSelected ? (
+                <div>
+                  <TabMenu
+                    model={items}
+                    activeIndex={activeIndex}
+                    onTabChange={(e) => setActiveIndex(e.index)}
+                  />
+                  <ActiveTab activeIndex={activeIndex} />
+                </div>
+              ) : (
+                <div>No killteam selected</div>
+              )}
+            </>
+          )}{" "}
         </div>
       </div>
     </div>

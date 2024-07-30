@@ -2,10 +2,38 @@
   display: grid;
   grid-template-columns: 250px 1fr;
   grid-gap: 16px;
-
   .factions {
+    .faction {
+      margin-bottom: 24px;
+      h4 {
+        margin-top: 4px;
+        margin-bottom: 8px;
+      }
+    }
+    .killteams {
+      margin-bottom: 4px;
+      height: 28px;
+      &:hover {
+        box-sizing: border-box;
+        padding: 2px 6px;
+        border-radius: 8px;
+        // color: #d17d1e;
+        background-color: #d17d1e15;
+        cursor: pointer;
+      }
+      &.active {
+        box-sizing: border-box;
+        padding: 2px 6px;
+        border-radius: 8px;
+        color: #d17d1e;
+        background-color: #d17d1e15;
+      }
+    }
   }
 
   .killteam {
+    .description {
+      font-size: small;
+    }
   }
 }

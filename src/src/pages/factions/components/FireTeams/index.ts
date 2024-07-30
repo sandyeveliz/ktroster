@@ -1,0 +1,1 @@
+export { default as FireTeams } from './FireTeams';

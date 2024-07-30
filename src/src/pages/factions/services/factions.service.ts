@@ -1,16 +1,15 @@
 import {
   collection,
   query,
-  where,
   getDocs,
   getDoc,
-  writeBatch,
   doc,
+  orderBy,
 } from "firebase/firestore";
 import { db } from "../../../../firebase-config";
 
 async function getFactions(): Promise<any> {
-  const q = query(collection(db, "factions"));
+  const q = query(collection(db, "factions"), orderBy("factionname"));
 
   // Get a document, forcing the SDK to fetch from the offline cache.
   try {
@@ -52,7 +51,7 @@ async function getKillteam(id: string): Promise<any> {
   try {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      return {id: docSnap.id, ...docSnap.data()};
+      return { id: docSnap.id, ...docSnap.data() };
     }
   } catch (e) {
     console.log("Error getting documents:", e);
