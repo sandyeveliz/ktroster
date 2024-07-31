@@ -3,6 +3,7 @@ import "./factions.scss";
 import { getFactions, getKillteam } from "./services/factions.service";
 import { TabMenu } from "primereact/tabmenu";
 import { FireTeams } from "./components/FireTeams";
+import parse from "html-react-parser";
 
 function Factions() {
   const items = [
@@ -40,6 +41,7 @@ function Factions() {
     setLoadingKillteam(true);
     getKillteam(killTeam.id).then((data: any) => {
       if (data) {
+        console.log(data);
         setKillTeamSelected(data);
         setLoadingKillteam(false);
       }
@@ -112,7 +114,14 @@ function Factions() {
                     {factionSelected.factionname} -{" "}
                     {killTeamSelected.killteamname}
                   </h3>
-                  <p className="description">{killTeamSelected.description}</p>
+                  <div className="description">
+                    {parse(killTeamSelected.description)}
+                  </div>
+
+                  <h4>Composition</h4>
+                  <div className="description">
+                    {parse(killTeamSelected.killteamcomp)}
+                  </div>
                 </div>
               ) : (
                 <h3>No killteam selected</h3>
