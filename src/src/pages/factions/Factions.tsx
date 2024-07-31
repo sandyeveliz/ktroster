@@ -4,12 +4,15 @@ import { getFactions, getKillteam } from "./services/factions.service";
 import { TabMenu } from "primereact/tabmenu";
 import { FireTeams } from "./components/FireTeams";
 import parse from "html-react-parser";
+import { Ploys } from "./components/Ploys";
+import { TacOps } from "./components/TacOps";
 
 function Factions() {
   const items = [
     { label: "Fireteams", icon: "pi pi-home" },
     { label: "Ploys", icon: "pi pi-chart-line" },
     { label: "Tacops", icon: "pi pi-list" },
+    // { label: "Habilities", icon: "pi pi-inbox" },
     // { label: "Equipments", icon: "pi pi-inbox" },
   ];
 
@@ -60,11 +63,19 @@ function Factions() {
     }
 
     if (activeIndex === 1) {
-      return <div>Ploys</div>;
+      return (
+        <div>
+          <Ploys ploys={killTeamSelected.ploys} />
+        </div>
+      );
     }
 
     if (activeIndex === 2) {
-      return <div>Tacops</div>;
+      return (
+        <div>
+          <TacOps tacops={killTeamSelected.tacops} />
+        </div>
+      );
     }
 
     return <div>No active Tab</div>;
