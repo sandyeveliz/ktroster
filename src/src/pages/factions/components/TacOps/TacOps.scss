@@ -1,3 +1,24 @@
 .tacops {
-  
+  .tacop-card {
+    margin-bottom: 42px;
+  }
+
+  .tacop-header {
+    padding: 2px 4px;
+    display: flex;
+    justify-content: space-between;
+    background-color: #b6b6b6;
+    font-weight: bold;
+    box-sizing: border-box;
+  }
+  .tacop-content {
+      padding: 4px;
+      box-sizing: border-box;
+      .tacop-subtitle {
+        font-size: 14px;
+        margin: 4px 0px;
+        font-weight: 600;
+        font-style: italic;
+      }
+  }
 }
